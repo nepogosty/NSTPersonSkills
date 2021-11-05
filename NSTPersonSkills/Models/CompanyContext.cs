@@ -58,7 +58,7 @@ namespace NSTPersonSkills.Models
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Skills)
                     .HasForeignKey(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Skill_Person");
             });
 

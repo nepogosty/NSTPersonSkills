@@ -14,9 +14,10 @@ namespace NSTPersonSkills.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
-  
+
         CompanyContext db=new CompanyContext();
-        [HttpGet]
+        [HttpGet(Name = "GetAllItems")]
+    
         public IEnumerable<Person> Get()
         {
             IEnumerable<Person> people = db.People.Include(p=>p.Skills);
