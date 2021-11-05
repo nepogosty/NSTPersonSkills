@@ -16,13 +16,13 @@ namespace NSTPersonSkills.Controllers
     {
 
         CompanyContext db = new CompanyContext();
-        [HttpGet(Name = "GetAllItems")]
+        //[HttpGet(Name = "persons")]
 
-        public IEnumerable<Person> Get()
-        {
-            IEnumerable<Person> people = db.People.Include(p => p.Skills);
-            return people;
-        }
+        //public IEnumerable<Person> Get()
+        //{
+        //    IEnumerable<Person> people = db.People.Include(p => p.Skills);
+        //    return people;
+        //}
 
 
         [HttpGet("{id}")]
@@ -48,18 +48,36 @@ namespace NSTPersonSkills.Controllers
             {
                 return BadRequest();
             }
-            if (db.People.Any(x => x.Id == person.Id))
+            else
             {
+                Person finished = new Person();
+                finished.Id = person.Id;
+                finished.Name = person.Name;
+                finished.DisplayName = person.DisplayName;
+               
+                var result = from item in db.People
+                             orderby item.Id descending
+                             select item;
+                try
+                {
+                    finished.Id = result.First().Id + 1;
+                }
+                catch {
+                    finished.Id = 1; 
+                }
+               
+                foreach (var update in person.Skills.GroupBy(p=>p.Name).Select(g=>g.FirstOrDefault()).Distinct())
+                {
+                    update.PersonId = (long)finished.Id;
+                    finished.Skills.Add(update);
 
-                return BadRequest();
+                  
+                }
+                db.People.Add(finished);
+                db.SaveChanges();
+                return Ok(finished);
             }
-            foreach (var update in person.Skills)
-            {
-                update.PersonId = person.Id;
-            }
-            db.People.Add(person);
-            db.SaveChanges();
-            return Ok(person);
+      
         }
 
 
@@ -107,7 +125,13 @@ namespace NSTPersonSkills.Controllers
             {
                 return NotFound();
             }
-
+            var skills = db.Skills.Where(t => t.PersonId == id);
+            foreach(var item in skills)
+            {
+                db.Skills.Remove(item);
+            }
+            
+            db.SaveChanges();
             db.People.Remove(person);
             db.SaveChanges();
             return Ok(person);
