@@ -15,16 +15,16 @@ namespace NSTPersonSkills.Controllers
     public class PersonController : ControllerBase
     {
 
-        CompanyContext db=new CompanyContext();
+        CompanyContext db = new CompanyContext();
         [HttpGet(Name = "GetAllItems")]
-    
+
         public IEnumerable<Person> Get()
         {
-            IEnumerable<Person> people = db.People.Include(p=>p.Skills);
+            IEnumerable<Person> people = db.People.Include(p => p.Skills);
             return people;
         }
 
-        
+
         [HttpGet("{id}")]
         public ActionResult Get(long id)
         {
@@ -35,12 +35,12 @@ namespace NSTPersonSkills.Controllers
                 return NotFound();
             }
             IEnumerable<Person> people = db.People.Include(p => p.Skills);
-            var item= people.Where(q => q.Id == id);
+            var item = people.Where(q => q.Id == id);
 
             return Ok(item);
         }
 
-     
+
         [HttpPost]
         public IActionResult PostPerson([FromBody] Person person)
         {
@@ -50,10 +50,10 @@ namespace NSTPersonSkills.Controllers
             }
             if (db.People.Any(x => x.Id == person.Id))
             {
-                
+
                 return BadRequest();
             }
-            foreach(var update in person.Skills)
+            foreach (var update in person.Skills)
             {
                 update.PersonId = person.Id;
             }
@@ -62,9 +62,9 @@ namespace NSTPersonSkills.Controllers
             return Ok(person);
         }
 
-        
+
         [HttpPut("{id}")]
-        public IActionResult PutPerson(long id,[FromBody] Person updatedPersonItem)
+        public IActionResult PutPerson(long id, [FromBody] Person updatedPersonItem)
         {
             if (updatedPersonItem == null)
             {

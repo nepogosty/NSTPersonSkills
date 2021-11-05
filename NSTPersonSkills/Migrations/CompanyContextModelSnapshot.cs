@@ -42,18 +42,17 @@ namespace NSTPersonSkills.Migrations
             modelBuilder.Entity("NSTPersonSkills.Models.Skill", b =>
                 {
                     b.Property<string>("Name")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<long>("PersonId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
                     b.Property<byte>("Level")
                         .HasColumnType("tinyint");
 
-                    b.HasKey("Name", "PersonId");
+                    b.HasKey("Name", "PersonId")
+                        .HasName("PK_Skill_1");
 
                     b.HasIndex("PersonId");
 
@@ -66,6 +65,7 @@ namespace NSTPersonSkills.Migrations
                         .WithMany("Skills")
                         .HasForeignKey("PersonId")
                         .HasConstraintName("FK_Skill_Person")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Person");

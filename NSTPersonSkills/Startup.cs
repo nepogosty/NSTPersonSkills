@@ -33,7 +33,7 @@ namespace NSTPersonSkills
                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
            );
             services.AddDbContext<CompanyContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-           
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NSTPersonSkills", Version = "v1" });

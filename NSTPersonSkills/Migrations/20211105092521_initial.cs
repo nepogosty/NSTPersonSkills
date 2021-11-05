@@ -2,7 +2,7 @@
 
 namespace NSTPersonSkills.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,13 +29,13 @@ namespace NSTPersonSkills.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skill", x => new { x.Name, x.PersonId });
+                    table.PrimaryKey("PK_Skill_1", x => new { x.Name, x.PersonId });
                     table.ForeignKey(
                         name: "FK_Skill_Person",
                         column: x => x.PersonId,
                         principalTable: "Person",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

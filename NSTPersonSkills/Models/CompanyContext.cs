@@ -49,7 +49,8 @@ namespace NSTPersonSkills.Models
 
             modelBuilder.Entity<Skill>(entity =>
             {
-                entity.HasKey(e => new { e.Name, e.PersonId });
+                entity.HasKey(e => new { e.Name, e.PersonId })
+                    .HasName("PK_Skill_1");
 
                 entity.ToTable("Skill");
 
@@ -58,7 +59,6 @@ namespace NSTPersonSkills.Models
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.Skills)
                     .HasForeignKey(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Skill_Person");
             });
 
