@@ -32,6 +32,7 @@ namespace NSTPersonSkills
                .AddNewtonsoftJson(options =>
                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
            );
+         
             services.AddDbContext<CompanyContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddSwaggerGen(c =>

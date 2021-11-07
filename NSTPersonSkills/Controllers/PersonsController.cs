@@ -13,7 +13,12 @@ namespace NSTPersonSkills.Controllers
     [ApiController]
     public class PersonsController : ControllerBase
     {
-        CompanyContext db = new CompanyContext();
+        private readonly CompanyContext db;
+
+        public PersonsController(CompanyContext _db)
+        {
+            db = _db;
+        }
         [HttpGet(Name = "persons")]
 
         public IEnumerable<Person> Get()
